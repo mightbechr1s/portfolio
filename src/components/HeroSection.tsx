@@ -28,7 +28,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-           className="inline-block text-xs font-medium tracking-[0.15em] uppercase text-[var(--color-ink-lighter)] mb-6"
+          className="inline-block text-xs font-medium tracking-[0.15em] uppercase text-[var(--color-ink-lighter)] mb-6"
         >
           {hero.greeting}
         </motion.span>
@@ -37,7 +37,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-           className="text-6xl sm:text-7xl md:text-8xl font-bold text-[var(--color-ink)] mb-5 leading-[0.9]"
+          className="text-6xl sm:text-7xl md:text-8xl font-bold text-[var(--color-ink)] mb-5 leading-[0.9]"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           {hero.name}
@@ -47,7 +47,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-           className="text-lg sm:text-xl text-[var(--color-ink-light)] max-w-lg mx-auto leading-relaxed mb-4"
+          className="text-lg sm:text-xl text-[var(--color-ink-light)] max-w-lg mx-auto leading-relaxed mb-4"
         >
           {hero.subtitle}
         </motion.p>
@@ -63,7 +63,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25 }}
-             className="text-sm font-medium text-[var(--color-ink-lighter)]"
+            className="text-sm font-medium text-[var(--color-ink-lighter)]"
           >
             {hero.roles[roleIndex]}
           </motion.span>
@@ -77,14 +77,14 @@ export function HeroSection() {
         >
           <a
             href={hero.cta.href}
-             className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-medium rounded-full hover:bg-[var(--color-ink-light)] transition-all active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-medium rounded-full hover:bg-[var(--color-ink-light)] transition-all active:scale-95"
           >
             {hero.cta.label}
             <ArrowDown className="w-3.5 h-3.5" />
           </a>
           <a
             href={hero.secondaryCta.href}
-             className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border-dark)] text-[var(--color-ink-light)] text-sm font-medium rounded-full hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] transition-all active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border-dark)] text-[var(--color-ink-light)] text-sm font-medium rounded-full hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] transition-all active:scale-95"
           >
             {hero.secondaryCta.label}
           </a>

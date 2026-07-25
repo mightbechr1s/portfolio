@@ -35,7 +35,7 @@ export function ProjectsSection() {
           initial={{ opacity: 0, y: 8 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1, duration: 0.4 }}
-           className="inline-block text-xs font-medium tracking-[0.15em] uppercase text-[var(--color-ink-lighter)] mb-4"
+          className="inline-block text-xs font-medium tracking-[0.15em] uppercase text-[var(--color-ink-lighter)] mb-4"
         >
           {projects.badge}
         </motion.span>
@@ -43,7 +43,7 @@ export function ProjectsSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.15, duration: 0.5 }}
-           className="text-3xl sm:text-4xl font-bold text-[var(--color-ink)] mb-3 leading-tight"
+          className="text-3xl sm:text-4xl font-bold text-[var(--color-ink)] mb-3 leading-tight"
           style={{ fontFamily: "var(--font-heading)" }}
         >
           {projects.title}
@@ -67,7 +67,7 @@ export function ProjectsSection() {
             <motion.div
               key={p.title}
               variants={cardVariants}
-               className="group border border-[var(--color-border)] hover:border-[var(--color-ink)] transition-all duration-300 hover:-translate-y-1"
+              className="group border border-[var(--color-border)] hover:border-[var(--color-ink)] transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="p-6">
                   <h3 className="text-lg font-bold text-[var(--color-ink)] mb-2 group-hover:underline underline-offset-4 transition-all">

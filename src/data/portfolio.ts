@@ -3,7 +3,7 @@ export const site = {
   tagline: "2nd Year IT Student & Developer",
   description:
     "Building web and desktop applications that solve real problems.",
-  url: "https://your4tune02-bit.github.io/portfolio",
+  url: "https://mightbechr1s.github.io/portfolio",
   domain: "portfolio",
 };
 
@@ -80,7 +80,7 @@ export const projects = {
         "JavaFX desktop app for student project collaboration. Real-time chat, task boards, invitations, and skill-based team matching.",
       tags: ["Java", "JavaFX", "Maven", "SQLite"],
       image: "/project-placeholder.svg",
-      links: { live: "#", github: "https://github.com/your4tune02-bit/SKILLSYNC" },
+      links: { live: "#", github: "https://github.com/mightbechr1s/SKILLSYNC" },
     },
     {
       title: "StockFlow",
@@ -88,7 +88,7 @@ export const projects = {
         "Inventory and sales management with daily reporting, transaction tracking, and CSV export for business insights.",
       tags: ["JavaScript", "HTML", "CSS"],
       image: "/project-placeholder.svg",
-      links: { live: "#", github: "https://github.com/your4tune02-bit/STOCKFLOW" },
+      links: { live: "#", github: "https://github.com/mightbechr1s/STOCKFLOW" },
     },
   ],
 };

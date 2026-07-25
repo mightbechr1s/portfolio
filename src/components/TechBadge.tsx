@@ -27,7 +27,7 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
   "Capacitor": SiCapacitor,
 };
 
-export function TechBadge({ name, mono = false }: { name: string; mono?: boolean }) {
+export function TechBadge({ name }: { name: string }) {
   const Icon = iconMap[name];
   if (!Icon) {
     return (
@@ -38,7 +38,7 @@ export function TechBadge({ name, mono = false }: { name: string; mono?: boolean
   }
   return (
     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[var(--color-paper-alt)] text-[var(--color-ink-light)] rounded-md">
-      <Icon size={14} color={mono ? undefined : undefined} />
+      <Icon size={14} />
       {name}
     </span>
   );
