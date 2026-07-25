@@ -4,6 +4,8 @@ import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
 import { hero, skills } from "@/data/portfolio";
 import { TechBadge } from "./TechBadge";
+import { GradientBg } from "./GradientBg";
+import { Marquee } from "./Marquee";
 
 const allTech = skills.categories.flatMap((c) => c.items.map((i) => i.name));
 
@@ -19,15 +21,7 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="absolute inset-0 pointer-events-none"
-      >
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--color-paper-alt)] rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-[var(--color-border)] rounded-full blur-3xl" />
-      </motion.div>
+      <GradientBg />
 
       <div className="max-w-3xl mx-auto text-center relative z-10">
         <motion.span
@@ -100,18 +94,9 @@ export function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.5 }}
-          className="flex flex-wrap justify-center gap-2 max-w-xl mx-auto"
+          className="max-w-3xl mx-auto -mb-4"
         >
-          {allTech.map((t, i) => (
-            <motion.div
-              key={t}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 + i * 0.04, duration: 0.3 }}
-            >
-              <TechBadge name={t} />
-            </motion.div>
-          ))}
+          <Marquee items={allTech} />
         </motion.div>
       </div>
 

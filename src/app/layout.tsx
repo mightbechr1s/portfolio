@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { Navbar } from "@/components/Navbar";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
+import { PreloaderWrapper } from "@/components/PreloaderWrapper";
 import "./globals.css";
 
 const unbounded = Unbounded({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${unbounded.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased bg-[var(--color-paper)] text-[var(--color-ink)]">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <PreloaderWrapper />
           <Navbar />
           <main>{children}</main>
           <Footer />

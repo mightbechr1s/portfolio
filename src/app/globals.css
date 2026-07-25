@@ -27,6 +27,17 @@
   --color-border-dark: #444444;
 }
 
+@layer utilities {
+  .mask-x-fade {
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-paper);
