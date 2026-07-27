@@ -202,7 +202,7 @@ export const contact = {
   title: "Let's Build Something",
   description:
     "Have a project in mind? Tell me about it and I'll get back to you within 24 hours.",
-  email: "your4tune02@gmail.com",
+  email: "chrismakesweb@gmail.com",
   responseTime: "I usually reply within 24 hours",
   social: [
     {
