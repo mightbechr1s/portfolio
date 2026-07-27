@@ -135,7 +135,7 @@ export const projects = {
       result:
         "Working inventory system with sales reports and data export. Demonstrates full CRUD operations.",
       links: {
-        live: "#",
+        live: "https://mightbechr1s.github.io/STOCKFLOW/",
         github: "https://github.com/mightbechr1s/STOCKFLOW",
       },
     },
