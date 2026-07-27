@@ -29,8 +29,24 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Chris | Portfolio",
-  description: "IT Student & Developer — building web and desktop applications.",
+  title: "Chris | Solutions Developer for Small Businesses",
+  description:
+    "I build websites, business systems, and automation tools that save time and grow revenue. Web development, business systems, and IT solutions for Philippine small businesses.",
+  keywords: [
+    "web developer",
+    "business systems",
+    "freelance developer Philippines",
+    "small business websites",
+    "IT solutions",
+    "automation",
+    "Next.js developer",
+  ],
+  openGraph: {
+    title: "Chris | Solutions Developer for Small Businesses",
+    description:
+      "I build websites, business systems, and automation tools that save time and grow revenue.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

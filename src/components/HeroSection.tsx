@@ -7,7 +7,7 @@ import { TechBadge } from "./TechBadge";
 import { GradientBg } from "./GradientBg";
 import { Marquee } from "./Marquee";
 
-const allTech = skills.categories.flatMap((c) => c.items.map((i) => i.name));
+const allTech = skills.categories.flatMap((c) => c.items);
 
 export function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -43,11 +43,21 @@ export function HeroSection() {
           {hero.name}
         </motion.h1>
 
+        <motion.h2
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="text-xl sm:text-2xl font-semibold text-[var(--color-ink)] mb-3 leading-snug"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
+          {hero.headline}
+        </motion.h2>
+
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-lg sm:text-xl text-[var(--color-ink-light)] max-w-lg mx-auto leading-relaxed mb-4"
+          transition={{ delay: 0.25, duration: 0.5 }}
+          className="text-base sm:text-lg text-[var(--color-ink-light)] max-w-lg mx-auto leading-relaxed mb-4"
         >
           {hero.subtitle}
         </motion.p>
@@ -73,7 +83,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className="flex flex-wrap gap-3 justify-center mb-12"
+          className="flex flex-wrap gap-3 justify-center mb-6"
         >
           <a
             href={hero.cta.href}
@@ -89,6 +99,15 @@ export function HeroSection() {
             {hero.secondaryCta.label}
           </a>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.4 }}
+          className="text-xs text-[var(--color-ink-lighter)] mb-12"
+        >
+          {hero.proof}
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0 }}

@@ -9,13 +9,13 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
 export function ProjectsSection() {
@@ -52,7 +52,7 @@ export function ProjectsSection() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2 }}
-           className="text-base text-[var(--color-ink-lighter)] mb-14 max-w-md"
+          className="text-base text-[var(--color-ink-lighter)] mb-14 max-w-md"
         >
           {projects.description}
         </motion.p>
@@ -61,47 +61,101 @@ export function ProjectsSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-5"
+          className="space-y-6"
         >
-          {projects.list.map((p, idx) => (
+          {projects.list.map((p) => (
             <motion.div
               key={p.title}
               variants={cardVariants}
-              className="group border border-[var(--color-border)] hover:border-[var(--color-ink)] transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-[var(--color-ink)] mb-2 group-hover:underline underline-offset-4 transition-all">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-[var(--color-ink-light)] leading-relaxed mb-4">
-                    {p.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {p.tags.map((t) => (
-                      <TechBadge key={t} name={t} />
-                    ))}
+              className="group border border-[var(--color-border)] hover:border-[var(--color-ink)] transition-all duration-300"
+            >
+              <div className="p-7">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <div>
+                    <h3
+                      className="text-xl font-bold text-[var(--color-ink)] mb-1"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      {p.title}
+                    </h3>
+                    <p className="text-sm font-medium text-[var(--color-ink-lighter)]">
+                      {p.tagline}
+                    </p>
                   </div>
-                  <div className="flex gap-4 pt-4 border-t border-[var(--color-border)]">
-                  {p.links.live !== "#" && (
-                    <motion.a
-                      href={p.links.live}
+                  <div className="flex gap-3 shrink-0">
+                    {p.links.live !== "#" && (
+                      <a
+                        href={p.links.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink-light)] hover:text-[var(--color-ink)] transition-colors"
+                      >
+                        <ExternalLink className="w-3 h-3" /> Live Demo
+                      </a>
+                    )}
+                    <a
+                      href={p.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink-light)] hover:text-[var(--color-ink)] transition-colors"
-                      whileHover={{ x: 2 }}
                     >
-                      <ExternalLink className="w-3 h-3" /> Live
-                    </motion.a>
-                  )}
-                  <motion.a
-                    href={p.links.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-xs font-medium text-[var(--color-ink-light)] hover:text-[var(--color-ink)] transition-colors"
-                    whileHover={{ x: 2 }}
-                  >
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg> Source
-                  </motion.a>
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                      Source
+                    </a>
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 mb-5">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-ink-lighter)] mb-1.5">
+                      Problem
+                    </p>
+                    <p className="text-sm text-[var(--color-ink-light)] leading-relaxed">
+                      {p.problem}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-ink-lighter)] mb-1.5">
+                      Solution
+                    </p>
+                    <p className="text-sm text-[var(--color-ink-light)] leading-relaxed">
+                      {p.solution}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mb-5">
+                  <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-ink-lighter)] mb-2">
+                    Key Features
+                  </p>
+                  <ul className="grid sm:grid-cols-2 gap-1">
+                    {p.features.map((f) => (
+                      <li
+                        key={f}
+                        className="text-sm text-[var(--color-ink-light)] flex items-start gap-2"
+                      >
+                        <span className="text-[var(--color-ink-lighter)] mt-1 shrink-0">&#8226;</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {p.result && (
+                  <div className="mb-5 p-3 bg-[var(--color-paper-alt)] border border-[var(--color-border)]">
+                    <p className="text-xs font-bold uppercase tracking-wider text-[var(--color-ink-lighter)] mb-1">
+                      Result
+                    </p>
+                    <p className="text-sm text-[var(--color-ink-light)] leading-relaxed">
+                      {p.result}
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--color-border)]">
+                  {p.tags.map((t) => (
+                    <TechBadge key={t} name={t} />
+                  ))}
                 </div>
               </div>
             </motion.div>

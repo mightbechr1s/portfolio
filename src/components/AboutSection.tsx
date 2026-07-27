@@ -53,7 +53,23 @@ export function AboutSection() {
           ))}
         </motion.div>
 
-
+        {about.interests && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.6, duration: 0.5 }}
+            className="mt-8 flex flex-wrap gap-2"
+          >
+            {about.interests.map((interest) => (
+              <span
+                key={interest}
+                className="text-xs font-medium px-3 py-1.5 border border-[var(--color-border-dark)] text-[var(--color-ink-light)]"
+              >
+                {interest}
+              </span>
+            ))}
+          </motion.div>
+        )}
       </motion.div>
     </section>
   );
