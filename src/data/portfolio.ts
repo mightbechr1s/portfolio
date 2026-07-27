@@ -211,8 +211,13 @@ export const contact = {
       icon: "github",
     },
     {
+      name: "LinkedIn",
+      url: "https://linkedin.com/in/cw-webster-ba7266425",
+      icon: "linkedin",
+    },
+    {
       name: "Email",
-      url: "mailto:your4tune02@gmail.com",
+      url: "mailto:chrismakesweb@gmail.com",
       icon: "email",
     },
   ],
