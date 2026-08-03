@@ -1,76 +1,36 @@
-"use client";
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
 import { about } from "@/data/portfolio";
 
 export function AboutSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section id="about" className="py-28 px-6">
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-3xl mx-auto"
-      >
-        <motion.span
-          initial={{ opacity: 0, y: 8 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1, duration: 0.4 }}
-          className="inline-block text-xs font-medium tracking-[0.15em] uppercase text-[var(--color-ink-lighter)] mb-4"
-        >
-          {about.badge}
-        </motion.span>
-        <motion.h2
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.15, duration: 0.5 }}
-          className="text-3xl sm:text-4xl font-bold text-[var(--color-ink)] mb-10 leading-tight"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          {about.title}
-        </motion.h2>
+    <section id="about" className="py-24 sm:py-32 px-5 sm:px-6">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-16">
+        <div className="lg:col-span-5">
+          <h2 className="section-title font-bold text-[var(--color-ink)] lg:sticky lg:top-28" style={{ fontFamily: "var(--font-heading)" }}>
+            {about.title}
+          </h2>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.25 }}
-          className="space-y-5"
-        >
-          {about.paragraphs.map((p, i) => (
-            <motion.p
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + i * 0.1, duration: 0.5 }}
-              className="text-base sm:text-lg text-[var(--color-ink-light)] leading-relaxed"
-            >
-              {p}
-            </motion.p>
-          ))}
-        </motion.div>
-
-        {about.interests && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            className="mt-8 flex flex-wrap gap-2"
-          >
-            {about.interests.map((interest) => (
-              <span
-                key={interest}
-                className="text-xs font-medium px-3 py-1.5 border border-[var(--color-border-dark)] text-[var(--color-ink-light)]"
-              >
-                {interest}
-              </span>
+        <div className="lg:col-span-7">
+          <p className="text-xl sm:text-2xl leading-relaxed text-[var(--color-ink)] mb-8 max-w-[65ch]">
+            {about.paragraphs[0]}
+          </p>
+          <div className="space-y-5 max-w-[70ch]">
+            {about.paragraphs.slice(1).map((paragraph) => (
+              <p key={paragraph} className="text-base text-[var(--color-ink-light)] leading-relaxed">
+                {paragraph}
+              </p>
             ))}
-          </motion.div>
-        )}
-      </motion.div>
+          </div>
+
+          <ul className="mt-10 grid sm:grid-cols-2 border-t border-[var(--color-border-dark)]">
+            {about.interests.map((interest) => (
+              <li key={interest} className="py-4 sm:pr-6 border-b border-[var(--color-border)] text-sm font-medium text-[var(--color-ink)]">
+                {interest}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }

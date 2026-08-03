@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { useSyncExternalStore } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Sun, Moon, Monitor } from "lucide-react";
 
 const modes = [
@@ -10,26 +10,29 @@ const modes = [
   { key: "system", icon: Monitor },
 ] as const;
 
+const subscribe = () => () => {};
+
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const reduceMotion = useReducedMotion();
 
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
+  if (!mounted) {
+    return <span className="size-11" aria-hidden="true" />;
+  }
 
   const current = modes.find((m) => m.key === theme) ?? modes[2];
   const next = modes[(modes.indexOf(current) + 1) % modes.length];
 
   return (
     <motion.button
-      initial={{ opacity: 0, scale: 0.8 }}
+      initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       onClick={() => setTheme(next.key)}
-      className="fixed bottom-6 left-6 z-40 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--color-paper)] border border-[var(--color-border)] text-[var(--color-ink-light)] hover:text-[var(--color-ink)] hover:border-[var(--color-ink)] transition-colors shadow-sm"
-      aria-label={`Switch to ${next.key} mode`}
+      className="size-11 shrink-0 flex items-center justify-center bg-[var(--color-paper)] border border-[var(--color-border-dark)] text-[var(--color-ink-light)] hover:text-[var(--color-ink)] hover:border-[var(--color-ink)] transition-colors"
+      aria-label={`${current.key} theme selected. Switch to ${next.key} theme`}
     >
-      <next.icon className="w-4 h-4" />
+      <next.icon className="w-4 h-4" aria-hidden="true" />
     </motion.button>
   );
 }

@@ -1,65 +1,46 @@
 "use client";
-import { useRef } from "react";
-import { motion, useInView } from "motion/react";
-import { Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { contact } from "@/data/portfolio";
 
+const fieldClass = "w-full min-h-11 px-4 py-3 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] placeholder:text-[var(--color-ink-lighter)] focus:border-[var(--color-ink)] transition-colors";
+
 export function ContactSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section id="contact" className="py-28 px-6">
-      <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6 }}
-        className="max-w-xl mx-auto"
-      >
-        <motion.span
-          initial={{ opacity: 0, y: 8 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1, duration: 0.4 }}
-          className="inline-block text-xs font-medium tracking-[0.15em] uppercase text-[var(--color-ink-lighter)] mb-4"
-        >
-          {contact.badge}
-        </motion.span>
-        <motion.h2
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.15, duration: 0.5 }}
-          className="text-3xl sm:text-4xl font-bold text-[var(--color-ink)] mb-3 leading-tight"
-          style={{ fontFamily: "var(--font-heading)" }}
-        >
-          {contact.title}
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.2 }}
-          className="text-base text-[var(--color-ink-light)] mb-10"
-        >
-          {contact.description}
-        </motion.p>
+    <section id="contact" className="contact-section py-24 sm:py-32 px-5 sm:px-6 bg-[var(--color-ink)] text-[var(--color-paper)]">
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <h2 className="section-title font-bold mb-6" style={{ fontFamily: "var(--font-heading)" }}>{contact.title}</h2>
+          <p className="text-base text-[var(--color-paper)]/70 leading-relaxed max-w-md mb-8">{contact.description}</p>
+          <a href={`mailto:${contact.email}`} className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-paper)] hover:underline underline-offset-4">
+            {contact.email} <ArrowUpRight className="size-4" aria-hidden="true" />
+          </a>
+          <p className="mt-3 text-xs text-[var(--color-paper)]/55">{contact.responseTime}</p>
+        </div>
 
-        <motion.form
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.3 }}
-          className="space-y-4 mb-8"
+        <div className="lg:col-span-7">
+        <form
+          className="space-y-5"
           onSubmit={(e) => {
             e.preventDefault();
-            const form = e.target as HTMLFormElement;
+            const form = e.currentTarget;
             const data = new FormData(form);
-            const subject = `Project Inquiry — ${data.get("projectType") || "General"}`;
-            const body = `Name: ${data.get("name")}%0AEmail: ${data.get("email")}%0AProject Type: ${data.get("projectType")}%0ABudget: ${data.get("budget")}%0AMessage: ${data.get("message")}`;
-            window.open(`mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${body}`);
+            const subject = `Project Inquiry - ${data.get("projectType") || "General"}`;
+            const budget = data.get("budget") || "Not provided";
+            const body = [
+              `Name: ${data.get("name")}`,
+              `Email: ${data.get("email")}`,
+              `Project Type: ${data.get("projectType")}`,
+              `Budget: ${budget}`,
+              "",
+              String(data.get("message") || ""),
+            ].join("\n");
+            window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
           }}
+          aria-describedby="form-note"
         >
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="name" className="block text-xs font-medium text-[var(--color-ink-lighter)] mb-1.5">
+              <label htmlFor="name" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
                 Name
               </label>
               <input
@@ -67,12 +48,12 @@ export function ContactSection() {
                 id="name"
                 name="name"
                 required
-                className="w-full px-4 py-2.5 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] focus:outline-none focus:border-[var(--color-ink)] transition-colors"
+                className={fieldClass}
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-xs font-medium text-[var(--color-ink-lighter)] mb-1.5">
+              <label htmlFor="email" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
                 Email
               </label>
               <input
@@ -80,7 +61,7 @@ export function ContactSection() {
                 id="email"
                 name="email"
                 required
-                className="w-full px-4 py-2.5 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] focus:outline-none focus:border-[var(--color-ink)] transition-colors"
+                className={fieldClass}
                 placeholder="you@email.com"
               />
             </div>
@@ -88,14 +69,17 @@ export function ContactSection() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label htmlFor="projectType" className="block text-xs font-medium text-[var(--color-ink-lighter)] mb-1.5">
+              <label htmlFor="projectType" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
                 Project Type
               </label>
               <select
                 id="projectType"
                 name="projectType"
-                className="w-full px-4 py-2.5 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] focus:outline-none focus:border-[var(--color-ink)] transition-colors"
+                className={fieldClass}
+                defaultValue=""
+                required
               >
+                <option value="" disabled>Select a project type</option>
                 <option value="Website">Website Development</option>
                 <option value="Business System">Business System</option>
                 <option value="Automation">Automation Solution</option>
@@ -103,14 +87,16 @@ export function ContactSection() {
               </select>
             </div>
             <div>
-              <label htmlFor="budget" className="block text-xs font-medium text-[var(--color-ink-lighter)] mb-1.5">
+              <label htmlFor="budget" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
                 Budget Range
               </label>
               <select
                 id="budget"
                 name="budget"
-                className="w-full px-4 py-2.5 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] focus:outline-none focus:border-[var(--color-ink)] transition-colors"
+                className={fieldClass}
+                defaultValue=""
               >
+                <option value="">Prefer not to say</option>
                 <option value="Under PHP 5,000">Under PHP 5,000</option>
                 <option value="PHP 5,000 - 15,000">PHP 5,000 - 15,000</option>
                 <option value="PHP 15,000+">PHP 15,000+</option>
@@ -120,57 +106,52 @@ export function ContactSection() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-xs font-medium text-[var(--color-ink-lighter)] mb-1.5">
+            <label htmlFor="message" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
               Tell me about your project
             </label>
             <textarea
               id="message"
               name="message"
               rows={4}
-              className="w-full px-4 py-2.5 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] focus:outline-none focus:border-[var(--color-ink)] transition-colors resize-none"
+              required
+              className={`${fieldClass} resize-y`}
               placeholder="What problem do you need solved?"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full px-6 py-3 bg-[var(--color-ink)] text-[var(--color-paper)] text-sm font-medium hover:bg-[var(--color-ink-light)] transition-all active:scale-[0.98]"
+            className="w-full min-h-12 px-6 py-3 bg-[var(--color-paper)] text-[var(--color-ink)] text-sm font-bold hover:opacity-80 transition-opacity"
           >
-            Send Message
+            Continue in email
           </button>
-        </motion.form>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.4 }}
-          className="text-center"
-        >
-          <p className="text-xs text-[var(--color-ink-lighter)] mb-3">
-            {contact.responseTime}
+          <p id="form-note" className="text-xs text-[var(--color-paper)]/55 leading-relaxed">
+            This opens a draft in your email application for you to review and send. Nothing is stored on this site.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+        </form>
+
+          <div className="flex flex-wrap gap-3 mt-8 pt-7 border-t border-[var(--color-paper)]/20">
             {contact.social.map((s) => (
               <a
                 key={s.name}
                 href={s.url}
                 target={s.url.startsWith("http") ? "_blank" : undefined}
                 rel={s.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--color-border-dark)] text-sm text-[var(--color-ink-light)] hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] transition-colors active:scale-95"
+                className="inline-flex min-h-11 items-center gap-2 px-4 py-2 border border-[var(--color-paper)]/25 text-sm text-[var(--color-paper)]/75 hover:border-[var(--color-paper)] hover:text-[var(--color-paper)] transition-colors"
               >
                 {s.icon === "github" ? (
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                 ) : s.icon === "linkedin" ? (
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 ) : (
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-4 h-4" aria-hidden="true" />
                 )}
                 {s.name}
               </a>
             ))}
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

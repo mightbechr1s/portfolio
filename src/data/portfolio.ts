@@ -17,13 +17,13 @@ export const hero = {
   roles: ["Web Developer", "Business Systems", "IT Solutions"],
   cta: { label: "See My Work", href: "#projects" },
   secondaryCta: { label: "Let's Talk", href: "#contact" },
-  proof: "Built Yield (500+ users) | 3 Deployed Projects | Open to Freelance",
+  proof: "3 shipped projects | Web + desktop builds | Open to freelance",
 };
 
 export const services = {
   badge: "Services",
-  title: "What I Build",
-  description: "Practical digital solutions for businesses that need to grow.",
+  title: "Three ways I help a business move faster.",
+  description: "Focused digital tools for businesses ready to replace slow, manual work with something dependable.",
   list: [
     {
       title: "Website Development",
@@ -54,7 +54,7 @@ export const services = {
 
 export const about = {
   badge: "About",
-  title: "Who I Am",
+  title: "Built around the problem, not the framework.",
   paragraphs: [
     "I build practical software that solves real problems for small businesses. While most developers focus on learning every new framework, I focus on one thing: building tools that people actually use.",
     "My work spans web applications, business systems, and automation solutions. I have shipped a production cooking app (Yield) with AI-powered recipe generation, deployed to web and mobile. I have built inventory systems, student collaboration tools, and business management applications.",
@@ -72,26 +72,28 @@ export const about = {
 
 export const projects = {
   badge: "Projects",
-  title: "Selected Work",
-  description: "Real projects that solve real problems.",
+  title: "Work that made it past the prototype.",
+  description: "Deployed products with real constraints, working features, and a clear reason to exist.",
   list: [
     {
       title: "Yield",
       tagline: "AI-Powered Cooking Application",
+      context: "Personal full-stack project",
+      status: "Live web demo",
       problem:
         "Home cooks waste food because they don't know what recipes they can make with available ingredients. Existing recipe apps require specific ingredients and don't work offline.",
       solution:
-        "A cooking app that scans your fridge via camera, identifies ingredients using AI image analysis, and generates recipes from what you already have. Works offline on mobile.",
+        "A cooking app that turns ingredients entered by text, voice, or camera into step-by-step recipes, with pantry tools and a backend-free demo for trying the core flow.",
       features: [
-        "Client-side food detection via Canvas API (no ML API needed)",
-        "200+ food alias database with fuzzy matching",
-        "Voice input for hands-free cooking",
-        "Barcode scanning for pantry tracking",
-        "3-recipe free trial with progressive upgrade",
+        "Ingredient entry by text, voice, or camera",
+        "Recipe steps with timers and food-safety guidance",
+        "Smart substitutions and pantry tracking",
+        "Backend-free demo generation",
+        "Local recipe and pantry cache",
       ],
       tags: ["Next.js", "TypeScript", "Tailwind", "Python", "Capacitor"],
       result:
-        "Production-grade app deployed to web and mobile. 500+ lines of production code. Cross-platform with offline support.",
+        "Working full-stack app with a Next.js frontend, FastAPI service, Supabase-backed data, and a public browser demo.",
       links: {
         live: "https://frontend-eta-nine-70.vercel.app",
         github: "https://github.com/mightbechr1s/yield",
@@ -100,12 +102,14 @@ export const projects = {
     {
       title: "SkillSync",
       tagline: "Student Collaboration Platform",
+      context: "Academic project",
+      status: "Source available",
       problem:
         "Student teams struggle with project coordination. Communication happens across scattered tools. There is no single place to manage tasks, chat, and track progress.",
       solution:
         "A desktop application that brings chat, task management, and team matching into one interface. Students form teams based on complementary skills.",
       features: [
-        "Real-time chat and messaging",
+        "Team chat and messaging",
         "Task board with status tracking",
         "Skill-based team matching",
         "Project invitation system",
@@ -121,6 +125,8 @@ export const projects = {
     {
       title: "StockFlow",
       tagline: "Inventory & Sales Management",
+      context: "Academic team project",
+      status: "Live browser demo",
       problem:
         "Small businesses track inventory mentally or on paper. They cannot calculate profit, don't know what's running low, and have no sales data to make decisions.",
       solution:
@@ -133,7 +139,7 @@ export const projects = {
       ],
       tags: ["JavaScript", "HTML", "CSS"],
       result:
-        "Working inventory system with sales reports and data export. Demonstrates full CRUD operations.",
+        "Working browser-based inventory demo with CRUD operations, sales reports, and CSV data export.",
       links: {
         live: "https://mightbechr1s.github.io/STOCKFLOW/",
         github: "https://github.com/mightbechr1s/STOCKFLOW",
@@ -144,7 +150,7 @@ export const projects = {
 
 export const process = {
   badge: "Process",
-  title: "How I Work",
+  title: "From first conversation to working software.",
   description: "A simple, transparent process from idea to launch.",
   steps: [
     {
@@ -176,7 +182,7 @@ export const process = {
 
 export const skills = {
   badge: "Skills",
-  title: "Tech Stack",
+  title: "Tools chosen for the job, not the trend.",
   categories: [
     {
       name: "Frontend",
@@ -199,11 +205,11 @@ export const skills = {
 
 export const contact = {
   badge: "Contact",
-  title: "Let's Build Something",
+  title: "Bring me the bottleneck.",
   description:
-    "Have a project in mind? Tell me about it and I'll get back to you within 24 hours.",
+    "Have a project in mind? Share the problem, scope, and timeline, then continue in your email app.",
   email: "chrismakesweb@gmail.com",
-  responseTime: "I usually reply within 24 hours",
+  responseTime: "Email is the fastest way to reach me",
   social: [
     {
       name: "GitHub",
