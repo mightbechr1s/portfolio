@@ -4,6 +4,13 @@ import { contact } from "@/data/portfolio";
 
 const fieldClass = "w-full min-h-11 px-4 py-3 text-sm border border-[var(--color-border-dark)] bg-[var(--color-paper)] text-[var(--color-ink)] placeholder:text-[var(--color-ink-lighter)] focus:border-[var(--color-ink)] transition-colors";
 
+const requiredCue = <span className="text-[var(--color-paper)]/55">(required)</span>;
+const optionalCue = <span className="text-[var(--color-paper)]/55">(optional)</span>;
+
+/** Collapse whitespace/newlines into a single trimmed line and bound its length for the mailto payload. */
+const toSingleLine = (value: FormDataEntryValue | null, max: number): string =>
+  String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
+
 export function ContactSection() {
   return (
     <section id="contact" className="contact-section py-24 sm:py-32 px-5 sm:px-6 bg-[var(--color-ink)] text-[var(--color-paper)]">
@@ -24,15 +31,16 @@ export function ContactSection() {
             e.preventDefault();
             const form = e.currentTarget;
             const data = new FormData(form);
-            const subject = `Project Inquiry - ${data.get("projectType") || "General"}`;
-            const budget = data.get("budget") || "Not provided";
+            const projectType = toSingleLine(data.get("projectType"), 60);
+            const subject = `Project Inquiry - ${projectType || "General"}`.slice(0, 80);
+            const budget = toSingleLine(data.get("budget"), 40) || "Not provided";
             const body = [
-              `Name: ${data.get("name")}`,
-              `Email: ${data.get("email")}`,
-              `Project Type: ${data.get("projectType")}`,
+              `Name: ${toSingleLine(data.get("name"), 80)}`,
+              `Email: ${toSingleLine(data.get("email"), 254)}`,
+              `Project Type: ${projectType}`,
               `Budget: ${budget}`,
               "",
-              String(data.get("message") || ""),
+              String(data.get("message") ?? "").trim().slice(0, 2000),
             ].join("\n");
             window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
           }}
@@ -41,12 +49,14 @@ export function ContactSection() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label htmlFor="name" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
-                Name
+                Name {requiredCue}
               </label>
               <input
                 type="text"
                 id="name"
                 name="name"
+                autoComplete="name"
+                maxLength={80}
                 required
                 className={fieldClass}
                 placeholder="Your name"
@@ -54,12 +64,14 @@ export function ContactSection() {
             </div>
             <div>
               <label htmlFor="email" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
-                Email
+                Email {requiredCue}
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="email"
+                maxLength={254}
                 required
                 className={fieldClass}
                 placeholder="you@email.com"
@@ -70,7 +82,7 @@ export function ContactSection() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label htmlFor="projectType" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
-                Project Type
+                Project Type {requiredCue}
               </label>
               <select
                 id="projectType"
@@ -88,7 +100,7 @@ export function ContactSection() {
             </div>
             <div>
               <label htmlFor="budget" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
-                Budget Range
+                Budget Range {optionalCue}
               </label>
               <select
                 id="budget"
@@ -107,12 +119,13 @@ export function ContactSection() {
 
           <div>
             <label htmlFor="message" className="block text-xs font-medium text-[var(--color-paper)]/65 mb-2">
-              Tell me about your project
+              Tell me about your project {requiredCue}
             </label>
             <textarea
               id="message"
               name="message"
               rows={4}
+              maxLength={2000}
               required
               className={`${fieldClass} resize-y`}
               placeholder="What problem do you need solved?"

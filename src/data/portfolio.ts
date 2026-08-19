@@ -67,7 +67,6 @@ export const about = {
     "Automation that saves time",
     "Mobile-first Philippine design",
   ],
-  avatar: "/avatar-placeholder.svg",
 };
 
 export const projects = {

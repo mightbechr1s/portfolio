@@ -49,6 +49,12 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_SITE_URL ?? site.url,
     siteName: "Chris | Solutions Developer",
   },
+  twitter: {
+    card: "summary",
+    title: "Chris | Solutions Developer for Small Businesses",
+    description:
+      "I build websites, business systems, and automation tools that save time and grow revenue.",
+  },
   alternates: { canonical: process.env.NEXT_PUBLIC_SITE_URL ?? site.url },
   robots: { index: true, follow: true },
 };

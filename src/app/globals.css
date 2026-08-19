@@ -114,105 +114,117 @@ section[id] {
   -webkit-box-decoration-break: clone;
 }
 
-.project-media {
-  background: #11120f;
-  overflow: hidden;
-}
-
-.project-media img {
-  transition: scale 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-media:hover img {
-  scale: 1.015;
-  filter: contrast(1.03);
-}
-
-@keyframes editorial-reveal {
+/* --- Project Card Animations --- */
+@keyframes slide-up {
   from {
     opacity: 0;
-    transform: translateY(14px);
-    clip-path: inset(0 0 18% 0);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    clip-path: inset(0 0 0 0);
   }
 }
 
-@keyframes ambient-drift {
-  from { transform: translate3d(-2%, -2%, 0) scale(0.96); }
-  to { transform: translate3d(5%, 4%, 0) scale(1.08); }
+@keyframes project-reveal {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
-@keyframes scroll-cue {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
+.project-card {
+  animation: project-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-
-.hero-ambient {
-  position: absolute;
-  width: min(72vw, 38rem);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  pointer-events: none;
-  background: radial-gradient(circle, var(--color-ink) 0%, transparent 68%);
-  opacity: 0.035;
-  animation: ambient-drift 18s ease-in-out infinite alternate;
-}
-
-.hero-ambient-one {
-  top: -30%;
-  left: -18%;
-}
-
-.hero-ambient-two {
-  right: -16%;
-  bottom: -34%;
-  animation-duration: 23s;
-  animation-direction: alternate-reverse;
-}
-
-.hero-scroll-cue {
-  animation: scroll-cue 1.8s ease-in-out infinite;
-}
-
-.hero-reveal {
-  animation: editorial-reveal 0.72s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.hero-reveal-2 { animation-delay: 90ms; }
-.hero-reveal-3 { animation-delay: 180ms; }
-.hero-reveal-4 { animation-delay: 270ms; }
-.hero-reveal-5 { animation-delay: 340ms; }
 
 @supports (animation-timeline: view()) {
-  @keyframes project-reveal {
-    from {
-      opacity: 0.72;
-      clip-path: inset(10% 0 0 0);
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      clip-path: inset(0 0 0 0);
-      transform: translateY(0);
-    }
-  }
-
-  .project-media {
-    animation: project-reveal linear both;
+  .project-card {
     animation-timeline: view();
-    animation-range: entry 8% cover 32%;
+    animation-range: entry 10% cover 35%;
   }
 }
 
+/* Card hover effects */
+.project-card:hover .project-tag {
+  color: var(--color-ink);
+}
+
+.project-links a {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-links a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.project-links a:hover::before {
+  opacity: 0.06;
+}
+
+.project-links a:has(.bg-[var(--color-ink)])::before {
+  background: var(--color-paper);
+}
+
+.project-links a .icon-arrow {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-links a:hover .icon-arrow {
+  transform: translateX(4px);
+}
+
+/* Feature list stagger */
+.feature-item {
+  opacity: 0;
+  animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Problem/Solution card hover */
+.problem-solution-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.problem-solution-card:hover {
+  border-color: var(--color-border-dark);
+  box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.08), 0 2px 6px -2px rgb(0 0 0 / 0.04);
+  transform: translateY(-2px);
+}
+
+.dark .problem-solution-card:hover {
+  box-shadow: 0 8px 24px -8px rgb(0 0 0 / 0.3), 0 2px 6px -2px rgb(0 0 0 / 0.2);
+}
+
+/* What shipped card */
+.shipped-card {
+  background: var(--color-signal-muted);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.2s ease;
+}
+
+.shipped-card:hover {
+  border-color: var(--color-border-dark);
+}
+
+/* Footer tags */
+.project-tag {
+  transition: color 0.2s ease;
+}
+
+/* --- Scrollbar --- */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--color-border-dark); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-ink-lighter); }
 
+/* --- Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -221,16 +233,13 @@ section[id] {
     animation-iteration-count: 1 !important;
   }
 
-  .project-media {
+  .project-card {
     animation: none !important;
+    opacity: 1;
   }
 
-  .hero-reveal {
+  .feature-item {
     animation: none !important;
-  }
-
-  .hero-ambient,
-  .hero-scroll-cue {
-    animation: none !important;
+    opacity: 1;
   }
 }
