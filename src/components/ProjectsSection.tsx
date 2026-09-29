@@ -1,104 +1,211 @@
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, Check, FileCode2 } from "lucide-react";
 import { projects } from "@/data/portfolio";
-import React from "react";
+import { Reveal } from "./Reveal";
 
-export function ProjectsSection() {
+function Shot({ image, alt }: { image: string | null; alt: string | null }) {
+  if (!image || !alt) {
+    return (
+      <div className="project-shot flex aspect-[16/10] flex-col items-center justify-center gap-2 px-6 text-center">
+        <FileCode2 className="size-6 text-[var(--color-accent)]" aria-hidden="true" />
+        <p className="font-mono text-xs text-[var(--color-ink-faint)]">
+          Desktop application &mdash; no browser demo
+        </p>
+      </div>
+    );
+  }
   return (
-    <section id="projects" className="py-24 sm:py-32 px-5 sm:px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-8 mb-16 sm:mb-24">
-          <h2 className="section-title lg:col-span-8 font-bold text-[var(--color-ink)]" style={{ fontFamily: "var(--font-heading)" }}>
-            {projects.title}
-          </h2>
-          <p className="lg:col-span-4 lg:self-end text-base text-[var(--color-ink-light)] max-w-md leading-relaxed">
-            {projects.description}
+    <div className="project-shot">
+      {/* Plain img: static export sets images.unoptimized, so next/image adds
+          nothing but a wrapper here, and lazy loading keeps the payload light. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={image} alt={alt} width={1200} height={750} loading="lazy" decoding="async" />
+    </div>
+  );
+}
+function Links({ project }: { project: (typeof projects.list)[number] }) {
+  return (
+    <div className="flex flex-wrap gap-3">
+      {project.links.live !== "#" && (
+        <a
+          href={project.links.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary"
+        >
+          Live Demo
+          <ArrowUpRight className="btn-arrow size-4" aria-hidden="true" />
+        </a>
+      )}
+      <a
+        href={project.links.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-ghost"
+      >
+        Source
+        <ArrowUpRight className="btn-arrow size-4" aria-hidden="true" />
+      </a>
+    </div>
+  );
+}
+
+function Details({ project }: { project: (typeof projects.list)[number] }) {
+  return (
+    <div className="grid gap-6 border-t border-[var(--color-line)] p-6 sm:p-8 lg:grid-cols-12">
+      <div className="grid gap-5 sm:grid-cols-2 lg:col-span-7">
+        <div className="rounded-lg border border-[var(--color-line)] bg-[var(--color-surface-2)] p-5">
+          <h4 className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+            The Problem
+          </h4>
+          <p className="mt-2.5 text-sm leading-relaxed text-[var(--color-ink-muted)]">
+            {project.problem}
           </p>
         </div>
+        <div className="rounded-lg border border-[var(--color-line)] bg-[var(--color-surface-2)] p-5">
+          <h4 className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+            The Solution
+          </h4>
+          <p className="mt-2.5 text-sm leading-relaxed text-[var(--color-ink-muted)]">
+            {project.solution}
+          </p>
+        </div>
+      </div>
 
-        <div className="space-y-20 sm:space-y-24 lg:space-y-28">
-          {projects.list.map((project, index) => (
-            <article
-              key={project.title}
-              className="project-card relative overflow-hidden"
-              style={{ animationDelay: `${index * 100}ms` }}
+      <div className="lg:col-span-5">
+        <h4 className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+          Key Features
+        </h4>
+        <ul className="mt-3 space-y-2.5">
+          {project.features.map((feature) => (
+            <li
+              key={feature}
+              className="flex gap-2.5 text-sm leading-relaxed text-[var(--color-ink-muted)]"
             >
-              <header className="grid lg:grid-cols-12 gap-8 lg:gap-12 mb-10 sm:mb-12 lg:mb-14">
-                <div className="lg:col-span-4 lg:self-start">
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--color-ink)] mb-3 leading-tight" style={{ fontFamily: "var(--font-heading)" }}>
-                    {project.title}
-                  </h3>
-                  <p className="text-base sm:text-lg font-medium text-[var(--color-ink-light)] leading-relaxed mb-6">{project.tagline}</p>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--color-ink-lighter)]">
-                    <span className="font-medium text-[var(--color-ink)]">{project.context}</span>
-                    <span aria-hidden="true" className="text-[var(--color-border-dark)]">/</span>
+              <Check className="mt-0.5 size-4 shrink-0 text-[var(--color-accent)]" aria-hidden="true" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="border-t border-[var(--color-line)] pt-5 lg:col-span-12">
+        <p className="text-sm leading-relaxed text-[var(--color-ink)]">{project.result}</p>
+        <ul className="mt-4 flex flex-wrap gap-2" role="list">
+          {project.tags.map((tag) => (
+            <li key={tag} className="chip !cursor-default">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export function ProjectsSection() {
+  const [featured, ...rest] = projects.list;
+
+  return (
+    <section
+      id="projects"
+      className="section-glow section-pad px-5 sm:px-6"
+    >
+      <div className="shell">
+        <Reveal className="grid gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <p className="eyebrow">{projects.badge}</p>
+            <h2 className="section-title mt-4 font-bold">{projects.title}</h2>
+          </div>
+          <p className="max-w-md text-base leading-relaxed text-[var(--color-ink-muted)] lg:col-span-4 lg:self-end">
+            {projects.description}
+          </p>
+        </Reveal>
+
+        {/* Featured project: wide horizontal card */}
+        <Reveal delay={60} className="mt-12 lg:mt-16">
+          {/* data-cursor-label is what the custom cursor reads to swap its ring
+              for a labelled state over a project card (§10). */}
+          <article
+            className="card project-card overflow-hidden"
+            data-cursor-label="VIEW"
+          >
+            <Shot image={featured.image} alt={featured.imageAlt} />
+            <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-12">
+              <div className="lg:col-span-7">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-[var(--color-ink-faint)]">
+                  <span className="text-[var(--color-accent)]">Featured</span>
+                  <span aria-hidden="true">/</span>
+                  <span>{featured.context}</span>
+                  <span aria-hidden="true">/</span>
+                  <span>{featured.status}</span>
+                </div>
+                <h3 className="mt-3 text-2xl font-bold sm:text-3xl">{featured.title}</h3>
+                <p className="mt-2 text-base text-[var(--color-ink-muted)]">{featured.tagline}</p>
+              </div>
+              <div className="lg:col-span-5 lg:self-end lg:justify-self-end">
+                <Links project={featured} />
+              </div>
+            </div>
+            <Details project={featured} />
+          </article>
+        </Reveal>
+
+        {/* Remaining projects: 1-up on mobile, 2-up on tablet, 3-up on desktop (§15) */}
+        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {rest.map((project, index) => (
+            <Reveal as="article" key={project.title} delay={index * 100}>
+              <div
+                className="card project-card flex h-full flex-col overflow-hidden"
+                data-cursor-label="VIEW"
+              >
+                <Shot image={project.image} alt={project.imageAlt} />
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex flex-wrap items-center gap-x-2 font-mono text-[0.6875rem] uppercase tracking-wider text-[var(--color-ink-faint)]">
+                    <span>{project.context}</span>
+                    <span aria-hidden="true">/</span>
                     <span>{project.status}</span>
                   </div>
-                </div>
-                <div className="lg:col-span-8">
-                  <div className="project-links flex flex-col sm:flex-row gap-4">
-                    {project.links.live !== "#" && (
-                      <a
-                        href={project.links.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex min-h-12 items-center justify-center gap-2 px-6 py-3 bg-[var(--color-ink)] text-[var(--color-paper)] text-base font-semibold rounded-md hover:bg-[var(--color-ink-light)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] focus-visible:ring-offset-2"
-                      >
-                        <span className="relative z-10">View Live</span>
-                        <ArrowUpRight className="icon-arrow relative z-10 size-5 shrink-0" aria-hidden="true" />
-                      </a>
-                    )}
-                    <a
-                      href={project.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex min-h-12 items-center justify-center gap-2 px-6 py-3 border-2 border-[var(--color-border-dark)] text-[var(--color-ink)] text-base font-semibold rounded-md hover:bg-[var(--color-paper-alt)] hover:border-[var(--color-ink)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ink)] focus-visible:ring-offset-2"
-                    >
-                      <span className="relative z-10">View Source</span>
-                      <ArrowUpRight className="icon-arrow relative z-10 size-5 shrink-0" aria-hidden="true" />
-                    </a>
-                  </div>
-                </div>
-              </header>
+                  <h3 className="mt-3 text-xl font-bold">{project.title}</h3>
+                  <p className="mt-2 text-sm text-[var(--color-ink-muted)]">{project.tagline}</p>
 
-              <div className="grid lg:grid-cols-12 gap-8 lg:gap-10">
-                <div className="lg:col-span-7 grid sm:grid-cols-2 gap-6 lg:gap-8">
-                  <div className="problem-solution-card p-5 sm:p-6 bg-[var(--color-paper-alt)] rounded-lg border border-[var(--color-border)]">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] mb-3">The Problem</h4>
-                    <p className="text-sm text-[var(--color-ink-light)] leading-relaxed">{project.problem}</p>
+                  <div className="mt-5">
+                    <h4 className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-[var(--color-accent)]">
+                      Key Features
+                    </h4>
+                    <ul className="mt-3 space-y-2">
+                      {project.features.map((feature) => (
+                        <li
+                          key={feature}
+                          className="flex gap-2.5 text-sm leading-relaxed text-[var(--color-ink-muted)]"
+                        >
+                          <Check
+                            className="mt-0.5 size-3.5 shrink-0 text-[var(--color-accent)]"
+                            aria-hidden="true"
+                          />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <div className="problem-solution-card p-5 sm:p-6 bg-[var(--color-paper-alt)] rounded-lg border border-[var(--color-border)]">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] mb-3">The Solution</h4>
-                    <p className="text-sm text-[var(--color-ink-light)] leading-relaxed">{project.solution}</p>
-                  </div>
-                </div>
 
-                <aside className="lg:col-span-5 space-y-6">
-                  <div className="shipped-card p-5 sm:p-6 rounded-lg">
-                    <h4 className="text-xs font-bold uppercase tracking-[0.1em] text-[var(--color-ink)] mb-3">What Shipped</h4>
-                    <p className="text-base text-[var(--color-ink)] leading-relaxed">{project.result}</p>
-                  </div>
-                  <ul className="space-y-3" role="list">
-                    {project.features.map((feature, i) => (
-                      <li key={feature} className="feature-item flex gap-3 text-sm text-[var(--color-ink-light)] leading-relaxed" style={{ animationDelay: `${i * 80 + 200}ms` }}>
-                        <Check className="size-4 mt-0.5 shrink-0 text-[var(--color-ink)] flex-shrink-0" aria-hidden="true" />
-                        <span>{feature}</span>
+                  <p className="mt-5 border-t border-[var(--color-line)] pt-4 text-sm leading-relaxed text-[var(--color-ink)]">
+                    {project.result}
+                  </p>
+
+                  <ul className="mt-4 flex flex-wrap gap-2" role="list">
+                    {project.tags.map((tag) => (
+                      <li key={tag} className="chip !cursor-default">
+                        {tag}
                       </li>
                     ))}
                   </ul>
-                </aside>
-              </div>
 
-              <footer className="mt-8 pt-6 border-t border-[var(--color-border)]">
-                <p className="text-xs text-[var(--color-ink-lighter)] tracking-wide flex flex-wrap gap-x-3 gap-y-1">
-                  {project.tags.map((tag, i) => (
-                    <React.Fragment key={tag}>
-                      {i > 0 && <span aria-hidden="true" className="text-[var(--color-border-dark)]">/</span>}
-                      <span className="project-tag font-medium text-[var(--color-ink-light)]">{tag}</span>
-                    </React.Fragment>
-                  ))}
-                </p>
-              </footer>
-            </article>
+                  <div className="mt-6 pt-1 lg:mt-auto">
+                    <Links project={project} />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>

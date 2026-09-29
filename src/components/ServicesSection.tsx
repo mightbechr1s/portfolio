@@ -1,5 +1,6 @@
 import { Globe, LayoutGrid, Zap } from "lucide-react";
 import { services } from "@/data/portfolio";
+import { Reveal } from "./Reveal";
 
 const icons = {
   globe: Globe,
@@ -9,47 +10,53 @@ const icons = {
 
 export function ServicesSection() {
   return (
-    <section id="services" className="py-24 sm:py-32 px-5 sm:px-6 bg-[var(--color-paper-alt)] border-y border-[var(--color-border)]">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-12 gap-8 mb-14 sm:mb-20">
-          <h2 className="section-title lg:col-span-8 font-bold text-[var(--color-ink)]" style={{ fontFamily: "var(--font-heading)" }}>
-            {services.title}
-          </h2>
-          <p className="lg:col-span-4 lg:self-end text-base text-[var(--color-ink-light)] max-w-md leading-relaxed">
+    <section
+      id="services"
+      className="section-pad border-y border-[var(--color-line)] bg-[var(--color-surface)] px-5 sm:px-6"
+    >
+      <div className="shell">
+        <Reveal className="grid gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <p className="eyebrow">{services.badge}</p>
+            <h2 className="section-title mt-4 font-bold">{services.title}</h2>
+          </div>
+          <p className="max-w-md text-base leading-relaxed text-[var(--color-ink-muted)] lg:col-span-4 lg:self-end">
             {services.description}
           </p>
-        </div>
+        </Reveal>
 
-        <div className="border-t border-[var(--color-border-dark)]">
-          {services.list.map((service) => {
+        <ul className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:mt-16">
+          {services.list.map((service, index) => {
             const Icon = icons[service.icon as keyof typeof icons];
             return (
-              <article
-                key={service.title}
-                className="group grid md:grid-cols-12 gap-5 md:gap-8 py-8 border-b border-[var(--color-border)]"
-              >
-                <div className="md:col-span-1">
-                  <span className="size-11 flex items-center justify-center bg-[var(--color-paper)] border border-[var(--color-border)] group-hover:bg-[var(--color-ink)] group-hover:text-[var(--color-paper)] transition-colors">
+              <Reveal as="li" key={service.title} delay={index * 100}>
+                <article className="card card-hover service-card group flex h-full flex-col p-6">
+                  <span className="card-icon flex size-11 items-center justify-center rounded-lg border border-[var(--color-line-strong)] bg-[var(--color-surface-2)] text-[var(--color-ink-muted)]">
                     <Icon className="size-5" aria-hidden="true" />
                   </span>
-                </div>
-                <div className="md:col-span-3">
-                  <h3 className="text-lg font-bold text-[var(--color-ink)]" style={{ fontFamily: "var(--font-heading)" }}>
-                    {service.title}
-                  </h3>
-                </div>
-                <p className="md:col-span-4 text-sm text-[var(--color-ink-light)] leading-relaxed">
-                  {service.description}
-                </p>
-                <div className="md:col-span-4 text-sm leading-relaxed">
-                  <p className="text-[var(--color-ink)] font-medium mb-2">What changes</p>
-                  <p className="text-[var(--color-ink-light)]">{service.value}</p>
-                  <p className="text-xs text-[var(--color-ink-lighter)] mt-4">For {service.target}</p>
-                </div>
-              </article>
+
+                  {/* Accent rule that draws itself in on hover: scaleX from the
+                      left edge only, so the reveal direction is unambiguous. */}
+                  <span className="service-rule" aria-hidden="true" />
+
+                  <h3 className="mt-5 text-lg font-bold">{service.title}</h3>
+
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--color-ink-muted)]">
+                    {service.description}
+                  </p>
+
+                  <p className="mt-5 border-t border-[var(--color-line)] pt-4 text-sm leading-relaxed text-[var(--color-ink)]">
+                    {service.value}
+                  </p>
+
+                  <p className="mt-auto pt-4 font-mono text-[0.6875rem] uppercase tracking-wider text-[var(--color-ink-faint)]">
+                    {service.target}
+                  </p>
+                </article>
+              </Reveal>
             );
           })}
-        </div>
+        </ul>
       </div>
     </section>
   );
